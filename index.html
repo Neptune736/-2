@@ -7,8 +7,11 @@
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     
     <style>
-      html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+      /* 修正：強迫背景必須是透明的，這樣相機畫面才不會被黑色蓋住 */
+      html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
+      
+      /* 密碼畫面 */
       #lock-screen {
         position: absolute; z-index: 999; top:0; left:0; width: 100%; height: 100%;
         background: #222; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
@@ -26,7 +29,7 @@
       <button onclick="unlockAR()">施展魔法</button>
     </div>
 
-    <a-scene mindar-image="imageTargetSrc: ./targets.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind; uiLoading: no; uiError: no;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
@@ -47,24 +50,23 @@
 
           var cardTarget = document.querySelector('[mindar-image-target]');
           var avatarModel = document.getElementById('my-avatar');
-          var delayTimer = null; // 用來記錄倒數計時器
+          var delayTimer = null; 
 
-          // 【核心修正：當相機「看到卡片」時的邏輯】
+          // 當相機「照到卡片」時
           cardTarget.addEventListener("targetFound", function() {
-            // 每次重新看到卡片，先確保它是隱形的
+            // 保持模型隱形，此時手機畫面完全是實時的相機畫面，看得到你的實體卡片
             avatarModel.setAttribute('visible', 'false');
             
-            // 開啟倒數計時器：1000 毫秒（也就是 1 秒）
+            // 倒數 1 秒（1000毫秒）
             delayTimer = setTimeout(function() {
-              avatarModel.setAttribute('visible', 'true'); // 1秒到，模型現身！
-              audio.currentTime = 0; // 音樂同步從頭播放
+              avatarModel.setAttribute('visible', 'true'); // 1秒到！角色在卡片上蹦出來！
+              audio.currentTime = 0; 
               audio.play();
-            }, 1000); // 👈 這裡的 1000 代表 1 秒，如果想變 2 秒可以改成 2000
+            }, 1000); 
           });
 
-          // 【補充修正：當相機「移開卡片」時的邏輯】
+          // 當相機「移開卡片」時
           cardTarget.addEventListener("targetLost", function() {
-            // 如果玩家看不到 1 秒就把手機移開，取消倒數，並暫停音樂、隱形模型
             clearTimeout(delayTimer);
             avatarModel.setAttribute('visible', 'false');
             audio.pause();
