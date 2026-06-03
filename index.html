@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     
     <style>
+      /* 確保 AR 舞台與手機畫面完美結合 */
+      html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+      a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
+      
       /* 設定密碼畫面的樣子：黑底白字，置中 */
       #lock-screen {
         position: absolute; z-index: 999; top:0; left:0; width: 100%; height: 100%;
@@ -28,7 +34,7 @@
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model id="my-avatar" rotation="0 0 0" position="0 0 0.1" scale="0.5 0.5 0.5" src="./avatar.glb"></a-gltf-model>
+        <a-gltf-model id="my-avatar" rotation="0 0 0" position="0 0 0.1" scale="1.5 1.5 1.5" src="./avatar.glb" animation-mixer></a-gltf-model>
         <a-entity id="my-sound" sound="src: ./card-music.mp3"></a-entity>
       </a-entity>
     </a-scene>
@@ -43,14 +49,14 @@
           document.getElementById("lock-screen").style.display = "none";
           
           // 設定當相機「看到卡片」時，自動播放音樂
-        var audio = new Audio('./card-music.mp3');
-        audio.load();
+          var audio = new Audio('./card-music.mp3');
+          audio.load();
 
-        var cardTarget = document.querySelector('[mindar-image-target]');
-        cardTarget.addEventListener("targetFound", function() {
+          var cardTarget = document.querySelector('[mindar-image-target]');
+          cardTarget.addEventListener("targetFound", function() {
             audio.currentTime = 0; // 從頭播放
             audio.play();
-});
+          });
         } else {
           alert("❌ 咒語錯誤！再試一次！");
         }
