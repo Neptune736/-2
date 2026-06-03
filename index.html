@@ -4,15 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.2/dist/mindar-image-aframe.prod.js"></script>
-    
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     
     <style>
-      /* 確保 AR 舞台與手機畫面完美結合 */
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #000; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
-      
-      /* 設定密碼畫面的樣子：黑底白字，置中 */
       #lock-screen {
         position: absolute; z-index: 999; top:0; left:0; width: 100%; height: 100%;
         background: #222; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
@@ -34,29 +30,46 @@
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-gltf-model id="my-avatar" rotation="0 0 0" position="0 0 0.1" scale="1.5 1.5 1.5" src="./avatar.glb" animation-mixer></a-gltf-model>
+        <a-gltf-model id="my-avatar" rotation="0 0 0" position="0 0 0.1" scale="1.5 1.5 1.5" src="./avatar.glb" animation-mixer visible="false"></a-gltf-model>
         <a-entity id="my-sound" sound="src: ./card-music.mp3"></a-entity>
       </a-entity>
     </a-scene>
 
     <script>
-      // 點擊按鈕後的魔法邏輯
       function unlockAR() {
         var answer = document.getElementById("magic-word").value;
         
-        if (answer === "1234") { // 👈 這裡可以改成你想要的密碼關鍵字！
-          // 密碼正確：把黑色密碼畫面丟掉
+        if (answer === "1234") {
           document.getElementById("lock-screen").style.display = "none";
           
-          // 設定當相機「看到卡片」時，自動播放音樂
           var audio = new Audio('./card-music.mp3');
           audio.load();
 
           var cardTarget = document.querySelector('[mindar-image-target]');
+          var avatarModel = document.getElementById('my-avatar');
+          var delayTimer = null; // 用來記錄倒數計時器
+
+          // 【核心修正：當相機「看到卡片」時的邏輯】
           cardTarget.addEventListener("targetFound", function() {
-            audio.currentTime = 0; // 從頭播放
-            audio.play();
+            // 每次重新看到卡片，先確保它是隱形的
+            avatarModel.setAttribute('visible', 'false');
+            
+            // 開啟倒數計時器：1000 毫秒（也就是 1 秒）
+            delayTimer = setTimeout(function() {
+              avatarModel.setAttribute('visible', 'true'); // 1秒到，模型現身！
+              audio.currentTime = 0; // 音樂同步從頭播放
+              audio.play();
+            }, 1000); // 👈 這裡的 1000 代表 1 秒，如果想變 2 秒可以改成 2000
           });
+
+          // 【補充修正：當相機「移開卡片」時的邏輯】
+          cardTarget.addEventListener("targetLost", function() {
+            // 如果玩家看不到 1 秒就把手機移開，取消倒數，並暫停音樂、隱形模型
+            clearTimeout(delayTimer);
+            avatarModel.setAttribute('visible', 'false');
+            audio.pause();
+          });
+
         } else {
           alert("❌ 咒語錯誤！再試一次！");
         }
