@@ -10,44 +10,55 @@
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
       
-      /* 🛠️ 核心修改：讓密碼畫面完美自適應背景圖 🛠️ */
+      /* 密碼畫面底圖 */
       #lock-screen {
-        position: absolute; 
-        z-index: 999; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%;
-        
-        /* 1. 帶入你的背景圖片路徑 */
-        background-image: url('./bg.jpg'); 
-        
-        /* 2. 讓圖片自動放大縮小，強迫鋪滿全螢幕且不變形 */
-        background-size: cover; 
-        
-        /* 3. 讓圖片永遠對齊畫面正中央 */
-        background-position: center; 
-        
-        /* 4. 防止圖片在畫面太長時重複平鋪 */
-        background-repeat: no-repeat; 
-        
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
-        color: white; 
-        font-family: sans-serif;
+        position: absolute; z-index: 999; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
       }
       
-      /* 優化：幫文字加上黑色陰影，避免背景圖太亮時字看不清楚 */
       #lock-screen h2 {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-        text-align: center;
-        padding: 0 20px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); text-align: center; padding: 0 20px; 
+        margin-bottom: 4vw; /* 讓文字間距也跟著螢幕大小縮放 */
+        font-size: 6vw;     /* 👈 讓標題文字大小也能自適應手機螢幕 */
       }
       
-      input, button { padding: 10px 20px; font-size: 16px; margin: 10px; border-radius: 5px; border: none; }
-      button { background: #ff4757; color: white; cursor: pointer; font-weight: bold; }
+      /* 🛠️ 核心修改 1：自適應輸入框圖片 🛠️ */
+      input { 
+        width: 65vw;           /* 👈 寬度佔手機螢幕寬度的 65% */
+        height: 15vw;          /* 👈 高度隨著螢幕寬度等比例縮放（請依你設計的 PNG 長寬比微調，例如：15vw） */
+        font-size: 4.5vw;      /* 👈 輸入進去的字體大小也會自動縮放 */
+        text-align: center;
+        background-image: url('./input-bg.png'); 
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: transparent; 
+        border: none;          
+        outline: none;         
+        color: #ffffff;        
+        padding: 0 4vw;       
+        box-sizing: border-box;
+      }
+      
+      /* 🛠️ 核心修改 2：自適應按鈕圖片 🛠️ */
+      button { 
+        width: 45vw;           /* 👈 寬度佔手機螢幕寬度的 45% */
+        height: 14vw;          /* 👈 高度隨著螢幕寬度等比例縮放（請依你設計的 PNG 長寬比微調，例如：14vw） */
+        font-size: 0;          
+        background-image: url('./button-bg.png'); 
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: transparent; 
+        border: none;
+        cursor: pointer;
+        margin-top: 4vw;       /* 間距自適應 */
+      }
+      
+      button:active {
+        transform: scale(0.95);
+      }
     </style>
   </head>
   
