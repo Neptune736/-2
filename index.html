@@ -18,7 +18,7 @@
       }
       
       #lock-screen h2 {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); text-align: center; padding: 0 20px; 
+        text-shadow: 4px 4px 10px rgba(0, 0, 0, 1); text-align: center; padding: 0 20px; 
         margin-bottom: 4vw; 
         font-size: 6vw;     
       }
@@ -39,6 +39,13 @@
         color: #ffffff;        
         padding: 0 4vw;       
         box-sizing: border-box;
+
+        /* 🛠️ 核心修改：幫圖片外圍加上重陰影 🛠️ */
+        /* 數值代表：水平位移 0, 垂直下移 4px, 模糊半徑 20px, 顏色為 70% 不透明度的黑色 */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7); 
+        
+        /* 如果你的圖片本身有圓角，陰影也要加上對應的圓角才不會露餡（例如 2vw） */
+        border-radius: 2vw;
       }
       
       /* 🛠️ 改回原本的文字按鈕，並加上 RWD 自適應縮放 🛠️ */
@@ -76,9 +83,9 @@
   <body>
 
     <div id="lock-screen">
-      <h2>✨ 請輸入聽見魔法的咒語 ✨</h2>
+      <h2>✨ 請輸入聯邦核可機密調閱碼★層級δ ✨</h2>
       <input type="text" id="magic-word" placeholder="請輸入密碼...">
-      <button onclick="unlockAR()">施展魔法</button>
+      <button onclick="unlockAR()">輸入調閱碼</button>
     </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; uiLoading: no; uiError: no; filterMinCF: 0.00001; filterBeta: 0.1;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
