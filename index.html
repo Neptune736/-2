@@ -10,41 +10,98 @@
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
       
-      /* 密碼畫面底圖 */
+      /* 🛠️ 核心修改：讓密碼畫面完美自適應背景圖 🛠️ */
       #lock-screen {
-        position: absolute; z-index: 999; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; 
-        display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
+        position: absolute; 
+        z-index: 999; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%;
+        
+        /* 1. 帶入你的背景圖片路徑 */
+        background-image: url('./bg.jpg'); 
+        
+        /* 2. 讓圖片自動放大縮小，強迫鋪滿全螢幕且不變形 */
+        background-size: cover; 
+        
+        /* 3. 讓圖片永遠對齊畫面正中央 */
+        background-position: center; 
+        
+        /* 4. 防止圖片在畫面太長時重複平鋪 */
+        background-repeat: no-repeat; 
+        
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        color: white; 
+        font-family: sans-serif;
       }
       
+      /* 優化：幫文字加上黑色陰影，避免背景圖太亮時字看不清楚 */
       #lock-screen h2 {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); text-align: center; padding: 0 20px; 
-        margin-bottom: 5vw; 
-        font-size: 6vw;     
-      }
-      
-      /* 🛠️ 調整：回歸簡約自適應輸入框（無圖片） 🛠️ */
-      input { 
-        width: 65vw;           /* 寬度佔螢幕 65% */
-        height: 12vw;          /* 高度自適應 */
-        font-size: 4.5vw;      
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
         text-align: center;
-        background-color: rgba(255, 255, 255, 0.2); /* 質感半透明白底 */
-        color: #ffffff;        /* 輸入文字為白色 */
-        border: 2px solid rgba(255, 255, 255, 0.5); /* 輕薄的半透明白框 */
-        border-radius: 2vw;    /* 圓角大小隨螢幕自適應 */
-        outline: none;         
-        padding: 0 3vw;       
-        box-sizing: border-box;
+        padding: 0 20px;
       }
       
-      /* 讓輸入框內預設的提示文字（請輸入密碼...）變成淡淡的白色 */
-      input::placeholder {
-        color: rgba(255, 255, 255, 0.6);
+      input, button { padding: 10px 20px; font-size: 16px; margin: 10px; border-radius: 5px; border: none; }
+      button { background: #ff4757; color: white; cursor: pointer; font-weight: bold; }
+    </style>
+  </head>
+  
+  <body>
+
+    <div id="lock-screen">
+      <h2>✨ 請輸入聽見魔法的咒語 ✨</h2>
+      <input type="text" id="magic-word" placeholder="請輸入密碼...">
+      <button onclick="unlockAR()">施展魔法</button>
+    </div>
+
+    <a-scene mindar-image="imageTargetSrc: ./targets.mind; uiLoading: no; uiError: no; filterMinCF: 0.00001; filterBeta: 0.1;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+      <a-entity mindar-image-target="targetIndex: 0">
+        <a-gltf-model id="my-avatar" rotation="0 0 0" position="0 0 0.1" scale="1.5 1.5 1.5" src="./avatar.glb" animation-mixer visible="false"></a-gltf-model>
+        <a-entity id="my-sound" sound="src: ./card-music.mp3"></a-entity>
+      </a-entity>
+    </a-scene>
+
+    <script>
+      function unlockAR() {
+        var answer = document.getElementById("magic-word").value;
+        
+        if (answer === "1234") {
+          document.getElementById("lock-screen").style.display = "none";
+          
+          var audio = new Audio('./card-music.mp3');
+          audio.load();
+
+          var cardTarget = document.querySelector('[mindar-image-target]');
+          var avatarModel = document.getElementById('my-avatar');
+          var delayTimer = null; 
+
+          cardTarget.addEventListener("targetFound", function() {
+            avatarModel.setAttribute('visible', 'false');
+            
+            delayTimer = setTimeout(function() {
+              avatarModel.setAttribute('visible', 'true'); 
+              audio.currentTime = 0; 
+              audio.play();
+            }, 1000); 
+          });
+
+          cardTarget.addEventListener("targetLost", function() {
+            clearTimeout(delayTimer);
+            avatarModel.setAttribute('visible', 'false');
+            audio.pause();
+          });
+
+        } else {
+          alert("❌ 咒語錯誤！再試一次！");
+        }
       }
-      
-      /* 🛠️ 保留：自適應按鈕圖片 🛠️ */
-      button { 
-        width: 45vw;           /* 寬度佔螢幕 45% */
-        height: 14vw;          /* 高度等比例縮放（可依你的 PNG 長寬比微調數字） */
-        font-size: 0;
+    </script>
+  </body>
+</html>
