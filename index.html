@@ -53,7 +53,7 @@
         background-color: rgba(255, 255, 255, 0.1); 
         
         /* 💡 調整字體顏色：因為背景變淺色，字體改用深灰色（#333333）或黑色會看得比較清楚 */
-        color: #000000;                 
+        color: #FFFFFF;                 
         
         font-weight: bold; 
         cursor: pointer;
@@ -77,9 +77,9 @@
   <body>
 
     <div id="lock-screen">
-      <h2>✨ 請輸入聯邦核可機密調閱碼★層級δ ✨</h2>
-      <input type="text" id="magic-word" placeholder="請輸入密碼...">
-      <button onclick="unlockAR()">輸入調閱碼</button>
+      <h2>✨ 星際聯邦機密★層級δ ✨</h2>
+      <input type="text" id="magic-word" placeholder="請輸入調閱碼...">
+      <button onclick="unlockAR()"送出</button>
     </div>
 
     <a-scene mindar-image="imageTargetSrc: ./targets.mind; uiLoading: no; uiError: no; filterMinCF: 0.00001; filterBeta: 0.1;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
@@ -95,7 +95,7 @@
       function unlockAR() {
         var answer = document.getElementById("magic-word").value;
         
-        if (answer === "1234") {
+        if (answer === "V17") {
           document.getElementById("lock-screen").style.display = "none";
           
           var audio = new Audio('./card-music.mp3');
