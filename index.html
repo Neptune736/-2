@@ -26,7 +26,7 @@
       /* 🛠️ 保持原樣：自適應圖片輸入框 🛠️ */
       input { 
         width: 65vw;           
-        height: 25vw;          
+        height: 65vw;          
         font-size: 4.5vw;      
         text-align: center;
         background-image: url('./input-bg.png'); 
@@ -43,16 +43,26 @@
       
       /* 🛠️ 改回原本的文字按鈕，並加上 RWD 自適應縮放 🛠️ */
       button { 
-        font-size: 4.5vw;             /* 👈 按鈕文字大小隨螢幕自適應 */
-        padding: 3vw 8vw;             /* 👈 內邊距隨螢幕自適應，讓按鈕大小完美包裹文字 */
+        font-size: 4.5vw;             
+        padding: 3vw 8vw;             
         margin-top: 5vw;       
-        border-radius: 2vw;           /* 👈 圓角弧度自適應 */
+        border-radius: 2vw;           
         border: none;
-        background-color: #0000C6;    /* 👈 經典紅底，可自行修改色碼 */
-        color: white;                 /* 白字 */
+        
+        /* 💡 核心修改：255,255,255 代表白色，0.4 代表 40% 的透明度（可依喜好調整為 0.3 ~ 0.6） */
+        background-color: rgba(255, 255, 255, 0.4); 
+        
+        /* 💡 調整字體顏色：因為背景變淺色，字體改用深灰色（#333333）或黑色會看得比較清楚 */
+        color: #333333;                 
+        
         font-weight: bold; 
         cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* 幫按鈕加一點立體陰影 */
+        
+        /* 幫按鈕加上微弱的模糊毛玻璃感（iOS風格），如果手機瀏覽器支援，效果會非常精緻 */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
       }
       
       /* 按鈕按下去時的縮小回饋效果 */
