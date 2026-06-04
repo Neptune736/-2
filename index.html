@@ -39,13 +39,6 @@
         color: #ffffff;        
         padding: 0 4vw;       
         box-sizing: border-box;
-
-        /* 🛠️ 核心修改：幫圖片外圍加上重陰影 🛠️ */
-        /* 數值代表：水平位移 0, 垂直下移 4px, 模糊半徑 20px, 顏色為 70% 不透明度的黑色 */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7); 
-        
-        /* 如果你的圖片本身有圓角，陰影也要加上對應的圓角才不會露餡（例如 2vw） */
-        border-radius: 2vw;
       }
       
       /* 🛠️ 改回原本的文字按鈕，並加上 RWD 自適應縮放 🛠️ */
@@ -57,7 +50,7 @@
         border: none;
         
         /* 💡 核心修改：255,255,255 代表白色，0.4 代表 40% 的透明度（可依喜好調整為 0.3 ~ 0.6） */
-        background-color: rgba(255, 255, 255, 0.2); 
+        background-color: rgba(255, 255, 255, 0.1); 
         
         /* 💡 調整字體顏色：因為背景變淺色，字體改用深灰色（#333333）或黑色會看得比較清楚 */
         color: #000000;                 
@@ -65,11 +58,12 @@
         font-weight: bold; 
         cursor: pointer;
         
-        /* 幫按鈕加上微弱的模糊毛玻璃感（iOS風格），如果手機瀏覽器支援，效果會非常精緻 */
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
+        /* 🛠️ 核心修改：幫圖片外圍加上重陰影 🛠️ */
+        /* 數值代表：水平位移 0, 垂直下移 4px, 模糊半徑 20px, 顏色為 70% 不透明度的黑色 */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7); 
         
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        /* 如果你的圖片本身有圓角，陰影也要加上對應的圓角才不會露餡（例如 2vw） */
+        border-radius: 2vw;
       }
       
       /* 按鈕按下去時的縮小回饋效果 */
