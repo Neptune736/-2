@@ -10,59 +10,54 @@
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
       
-      /* 🛠️ 核心修改：讓密碼畫面完美自適應背景圖 🛠️ */
+      /* 密碼畫面底圖 */
       #lock-screen {
-        position: absolute; 
-        z-index: 999; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%;
-        
-        /* 1. 帶入你的背景圖片路徑 */
-        background-image: url('./bg.jpg'); 
-        
-        /* 2. 讓圖片自動放大縮小，強迫鋪滿全螢幕且不變形 */
-        background-size: cover; 
-        
-        /* 3. 讓圖片永遠對齊畫面正中央 */
-        background-position: center; 
-        
-        /* 4. 防止圖片在畫面太長時重複平鋪 */
-        background-repeat: no-repeat; 
-        
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
-        color: white; 
-        font-family: sans-serif;
+        position: absolute; z-index: 999; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
       }
       
-      /* 優化：幫文字加上黑色陰影，避免背景圖太亮時字看不清楚 */
       #lock-screen h2 {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-        text-align: center;
-        padding: 0 20px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); text-align: center; padding: 0 20px; margin-bottom: 20px;
       }
       
+      /* 🛠️ 核心修改 1：把輸入框改成你的 PNG 圖片 🛠️ */
       input { 
-        width: 85vw;           /* 👈 寬度佔手機螢幕寬度的 65% */
-        height: 15vw;          /* 👈 高度隨著螢幕寬度等比例縮放（請依你設計的 PNG 長寬比微調，例如：15vw） */
-        font-size: 4.5vw;      /* 👈 輸入進去的字體大小也會自動縮放 */
+        width: 260px;          /* 👈 調整成適合你圖片的寬度 */
+        height: 60px;          /* 👈 調整成適合你圖片的高度 */
+        font-size: 18px; 
         text-align: center;
-        background-image: url('./input-bg.png'); 
+        background-image: url('./input-bg.png'); /* 帶入你的輸入框圖片 */
         background-size: 100% 100%;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: transparent; 
-        border: none;          
-        outline: none;         
-        color: #ffffff;        
-        padding: 0 4vw;       
+        background-color: transparent; /* 讓原本白底變成透明 */
+        border: none;          /* 拔掉原本的邊框 */
+        outline: none;         /* 點擊時不要出現預設外框 */
+        color: #ffffff;        /* 👈 打字進去的顏色，可以根據你的圖片深淺換成 #000000 (黑) 或其他顏色 */
+        padding: 0 15px;       /* 內縮一些，防止字體太靠邊緣 */
         box-sizing: border-box;
       }
-      button { background: #ff4757; color: white; cursor: pointer; font-weight: bold; }
+      
+      /* 🛠️ 核心修改 2：把按鈕改成你的 PNG 圖片 🛠️ */
+      button { 
+        width: 180px;          /* 👈 調整成適合你圖片的寬度 */
+        height: 55px;          /* 👈 調整成適合你圖片的高度 */
+        font-size: 0;          /* 💡 絕招：設為 0 可以隱藏原本「施展魔法」這四個新細明體字，只露你的圖片 */
+        background-image: url('./button-bg.png'); /* 帶入你的按鈕圖片 */
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: transparent; /* 讓原本紅底變成透明 */
+        border: none;
+        cursor: pointer;
+        margin-top: 15px;
+      }
+      
+      /* 點擊按鈕時稍微縮小，製造按下去的真實回饋感 */
+      button:active {
+        transform: scale(0.95);
+      }
     </style>
   </head>
   
