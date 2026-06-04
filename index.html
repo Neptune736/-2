@@ -9,12 +9,45 @@
     <style>
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
+      
+      /* 🛠️ 核心修改：讓密碼畫面完美自適應背景圖 🛠️ */
       #lock-screen {
-        position: absolute; z-index: 999; top:0; left:0; width: 100%; height: 100%;
-        background: #222; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
+        position: absolute; 
+        z-index: 999; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        height: 100%;
+        
+        /* 1. 帶入你的背景圖片路徑 */
+        background-image: url('./bg.jpg'); 
+        
+        /* 2. 讓圖片自動放大縮小，強迫鋪滿全螢幕且不變形 */
+        background-size: cover; 
+        
+        /* 3. 讓圖片永遠對齊畫面正中央 */
+        background-position: center; 
+        
+        /* 4. 防止圖片在畫面太長時重複平鋪 */
+        background-repeat: no-repeat; 
+        
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        color: white; 
+        font-family: sans-serif;
       }
+      
+      /* 優化：幫文字加上黑色陰影，避免背景圖太亮時字看不清楚 */
+      #lock-screen h2 {
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        padding: 0 20px;
+      }
+      
       input, button { padding: 10px 20px; font-size: 16px; margin: 10px; border-radius: 5px; border: none; }
-      button { background: #ff4757; color: white; cursor: pointer; }
+      button { background: #ff4757; color: white; cursor: pointer; font-weight: bold; }
     </style>
   </head>
   
