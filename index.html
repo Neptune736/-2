@@ -10,44 +10,56 @@
       html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: transparent; }
       a-scene { width: 100%; height: 100%; position: absolute; z-index: 1; }
       
-      /* 🛠️ 核心修改：讓密碼畫面完美自適應背景圖 🛠️ */
+      /* 密碼畫面底圖 */
       #lock-screen {
-        position: absolute; 
-        z-index: 999; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        height: 100%;
-        
-        /* 1. 帶入你的背景圖片路徑 */
-        background-image: url('./bg.jpg'); 
-        
-        /* 2. 讓圖片自動放大縮小，強迫鋪滿全螢幕且不變形 */
-        background-size: cover; 
-        
-        /* 3. 讓圖片永遠對齊畫面正中央 */
-        background-position: center; 
-        
-        /* 4. 防止圖片在畫面太長時重複平鋪 */
-        background-repeat: no-repeat; 
-        
-        display: flex; 
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
-        color: white; 
-        font-family: sans-serif;
+        position: absolute; z-index: 999; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; 
+        display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: sans-serif;
       }
       
-      /* 優化：幫文字加上黑色陰影，避免背景圖太亮時字看不清楚 */
       #lock-screen h2 {
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-        text-align: center;
-        padding: 0 20px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); text-align: center; padding: 0 20px; 
+        margin-bottom: 4vw; 
+        font-size: 6vw;     
       }
       
-      input, button { padding: 10px 20px; font-size: 16px; margin: 10px; border-radius: 5px; border: none; }
-      button { background: #ff4757; color: white; cursor: pointer; font-weight: bold; }
+      /* 🛠️ 保持原樣：自適應圖片輸入框 🛠️ */
+      input { 
+        width: 65vw;           
+        height: 15vw;          
+        font-size: 4.5vw;      
+        text-align: center;
+        background-image: url('./input-bg.png'); 
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: transparent; 
+        border: none;          
+        outline: none;         
+        color: #ffffff;        
+        padding: 0 4vw;       
+        box-sizing: border-box;
+      }
+      
+      /* 🛠️ 改回原本的文字按鈕，並加上 RWD 自適應縮放 🛠️ */
+      button { 
+        font-size: 4.5vw;             /* 👈 按鈕文字大小隨螢幕自適應 */
+        padding: 3vw 8vw;             /* 👈 內邊距隨螢幕自適應，讓按鈕大小完美包裹文字 */
+        margin-top: 5vw;       
+        border-radius: 2vw;           /* 👈 圓角弧度自適應 */
+        border: none;
+        background-color: #ff4757;    /* 👈 經典紅底，可自行修改色碼 */
+        color: white;                 /* 白字 */
+        font-weight: bold; 
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* 幫按鈕加一點立體陰影 */
+      }
+      
+      /* 按鈕按下去時的縮小回饋效果 */
+      button:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      }
     </style>
   </head>
   
