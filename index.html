@@ -39,6 +39,19 @@
         color: #ffffff;        
         padding: 0 4vw;       
         box-sizing: border-box;
+        
+        /* 🛠️ 核心修改：啟動登場果凍彈跳動畫 🛠️ */
+        /* 執行名為 jellyIn 的動畫，總長 0.8 秒，只播放 1 次 */
+        animation: jellyIn 0.8s ease-out forwards;
+      }
+
+      /* 🛠️ 定義果凍彈跳的縮放軌跡 🛠️ */
+      @keyframes jellyIn {
+        0% { transform: scale(0.3); opacity: 0; }         /* 剛開始：超小且透明 */
+        50% { transform: scale(1.1); opacity: 1; }        /* 衝過頭：放大到 1.1 倍 */
+        70% { transform: scale(0.95); }                   /* 彈回來：縮小到 0.95 倍 */
+        100% { transform: scale(1); }                     /* 最後定格：恢復原本的 1 倍大小 */
+      }
       }
       
       /* 🛠️ 改回原本的文字按鈕，並加上 RWD 自適應縮放 🛠️ */
